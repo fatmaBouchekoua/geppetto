@@ -63,7 +63,7 @@ module.exports = {
             await client.waitForAndClick(AddProduct.Combination.attribute_size_checkbox_button.replace('%ID', 2), 1000); // combination size m
           });
           test('should click on "Generate" button', () => client.waitForAndClick(AddProduct.Combination.generate_combination_button, 3000));
-          test('should verify the appearance of the green validation', async() => {
+          test('should verify the appearance of the green validation', async () => {
             await client.checkTextValue(AddProduct.validation_msg, 'Settings updated.');
             await client.waitForAndClick(AddProduct.close_validation_button);
           });
@@ -113,7 +113,7 @@ module.exports = {
     scenario('Go to the front office and search for the created product', client => {
       test('should go to the Front Office', () => client.accessToFO(CommonBO.shopname_link, 1, 6000));
       test('should go switch language to "English"', () => client.switchShopLanguageInFo('en'));
-      test('should search for the created product', async() => {
+      test('should search for the created product', async () => {
         await client.waitForAndClick(HomePage.search_input, 2000);
         await client.waitForAndType(HomePage.search_input, productData.name + global.dateTime, 2000);
         await client.waitForAndClick(HomePage.search_button, 2000);
@@ -131,10 +131,21 @@ module.exports = {
       test('should click on "Proceed to checkout" button', () => client.waitForAndClick(ProductPageFO.proceed_to_checkout_modal_button, 2000));
       test('should click on "Product customization" link', () => client.waitForAndClick(ProductPageFO.product_customization_link, 2000));
       test('should check that the customization value in the pop-up is equal to "' + productData.options.customization + '"', () => client.checkTextValue(ProductPageFO.customizationvalue, productData.options.customization, 'equal', 2000));
-      test('should check that the customization message pop-up is equal to "' + message + '"', async() => {
+      test('should check that the customization message pop-up is equal to "' + message + '"', async () => {
         await client.checkTextValue(ProductPageFO.customization_message, message, 'equal', 2000);
         await client.switchWindow(0);
       });
     }, 'common_client');
+  },
+  async searchProductInBo(data, client) {
+    test('should go to "Products" page', () => client.waitForAndClick(Menu.Sell.Catalog.products_submenu));
+    test('should set the "Name" input', () => client.waitForAndType(Catalog.name_search_input, data));
+    test('should set click on "Search" button', () => client.waitForAndClick(Catalog.search_button));
+  },
+  async deleteProductInBo(client) {
+    test('should click on the "dropdown" icon', () => client.waitForAndClick(Catalog.dropdown_toggle.replace("%D", 1)));
+    test('should click on the "Delete" icon', () => client.waitForAndClick(Catalog.delete_button.replace("%D", 1)));
+    test('should click on the "delete now" button', () => client.waitForAndClick(Catalog.delete_confirmation, 1000));
+    test('should verify the appearance of the green validation message', () => client.checkTextValue(Catalog.green_validation, 'close\nProduct successfully deleted.\n\n'));
   }
 };
