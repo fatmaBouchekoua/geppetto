@@ -312,6 +312,12 @@ class CommonClient {
     await this.waitFor(selector);
     await page.$eval(selector + ' > option[selected]', el => el.innerText).then((text) => expect(text).to.equal(textToCheckWith));
   }
+
+  async getBoundingBox(selector, wait = 0, globalVar) {
+    await this.waitFor(wait);
+    const bodyHandle = await page.$(selector);
+    global.tab[globalVar] = await bodyHandle.boundingBox();
+  }
 }
 
 module.exports = CommonClient;
