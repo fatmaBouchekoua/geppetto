@@ -297,6 +297,14 @@ class CommonClient {
     await page.waitForSelector(selector, {timeout: 90000});
     global.selectedValue = await page.select(selector, value);
   }
+
+  async getTextInVar(selector, globalVar, wait = 0) {
+    await this.waitFor(wait);
+    await this.waitFor(selector);
+    await page.$eval(selector, el => el.innerText).then((text) => {
+      global.tab[globalVar] = text;
+    });
+  }
 }
 
 module.exports = CommonClient;
