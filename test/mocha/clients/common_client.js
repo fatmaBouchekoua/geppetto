@@ -188,7 +188,8 @@ class CommonClient {
     }
   }
 
-  async checkURL(textToCheckWith) {
+  async checkURL(textToCheckWith,wait=0) {
+    await this.waitFor(wait);
     let currentUrl = await page.target().url();
     expect(currentUrl).to.contain(textToCheckWith);
   }
