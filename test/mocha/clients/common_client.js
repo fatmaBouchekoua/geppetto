@@ -222,6 +222,14 @@ class CommonClient {
     await page.select(selector, value);
   }
 
+  async checkTextEditor(selector, textToCheckWith) {
+    await page.evaluate(() => {
+      return tinyMCE.activeEditor.getContent()
+    }).then((content)=> {
+      expect(content).to.contain(textToCheckWith)
+    });
+  }
+
   async confirmationDialog(action = 'accept') {
     switch (action) {
       case "accept":
